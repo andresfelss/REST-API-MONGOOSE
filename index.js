@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const mongoose = require('mongoose');
+const Product = require('./models/product');
+
 
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
@@ -9,7 +11,7 @@ app.set('view engine','ejs');
 // Para conectarnos con Mongo.
 main().catch(err => console.log(err))
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/test');
+    await mongoose.connect('mongodb://127.0.0.1:27017/farmStand');
     console.log('Succesful Connection')
 }
 
