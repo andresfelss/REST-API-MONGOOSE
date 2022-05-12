@@ -25,8 +25,7 @@ app.get('/products', async(req,res)=>{
 app.get('/products/:id', async(req,res)=>{
     const { id } = req.params;
     const product = await Product.findById({_id: id}); // Hallamos el producto por id
-    console.log(product)
-    res.send('Details page')
+    res.render('products/show', { product });
 })
 
 app.listen(3000, ()=>{
