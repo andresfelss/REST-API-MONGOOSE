@@ -17,8 +17,7 @@ async function main(){
 // List all The products
 app.get('/products', async(req,res)=>{
     const productos = await Product.find({});
-    console.log(productos);
-    res.send('O my god its workign');
+    res.render('products/index', { productos }); // recordemos que se llama productos
 })
 
 

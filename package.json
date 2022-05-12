@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andresfelss/REST-API-MONGOOSE#readme",
   "dependencies": {
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
     "mongoose": "^6.3.3"
   }
