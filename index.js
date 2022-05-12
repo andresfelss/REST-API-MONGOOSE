@@ -20,13 +20,19 @@ app.get('/products', async(req,res)=>{
     res.render('products/index', { productos }); // recordemos que se llama productos
 })
 
+// Add New Product
+app.get('/products/news', (req,res)=>{
+    res.send('hola')
+})
 
 // Details products
 app.get('/products/:id', async(req,res)=>{
     const { id } = req.params;
     const product = await Product.findById({_id: id}); // Hallamos el producto por id
     res.render('products/show', { product });
-})
+});
+
+
 
 app.listen(3000, ()=>{
     console.log('Listening on Port 3000 http://localhost:3000/')
