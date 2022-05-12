@@ -4,7 +4,6 @@ const app = express();
 const mongoose = require('mongoose');
 const Product = require('./models/product');
 
-
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 
@@ -14,6 +13,13 @@ async function main(){
     await mongoose.connect('mongodb://127.0.0.1:27017/farmStand');
     console.log('Succesful Connection')
 }
+
+// List all The products
+app.get('/products', async(req,res)=>{
+    const productos = await Product.find({});
+    console.log(productos);
+    res.send('O my god its workign');
+})
 
 
 app.listen(3000, ()=>{
