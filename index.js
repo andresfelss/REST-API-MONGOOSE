@@ -4,6 +4,7 @@ const app = express();
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const Product = require('./models/product');
+const { redirect } = require('express/lib/response');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -60,6 +61,13 @@ app.get('/products/:id', async(req,res)=>{
     res.render('products/show', { product });
 });
 
+
+// Delete Prodcut
+app.delete('/products/:id', async (req,res)=>{
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.redirect('/products');
+});
 
 
 app.listen(3000, ()=>{
