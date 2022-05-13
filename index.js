@@ -24,8 +24,15 @@ async function main(){
 
 // List all The products
 app.get('/products', async(req,res)=>{
-    const productos = await Product.find({});
-    res.render('products/index', { productos }); // recordemos que se llama productos
+    const {category} = req.query;
+    if (category){
+        const productos = await Product.find({category: category})
+        res.render('products/index', { productos, category }); // recordemos que se llama productos
+    }
+    else{
+        const productos = await Product.find({});
+        res.render('products/index', { productos, category: 'ALL' }); // recordemos que se llama productos
+    }
 })
 
 // Add New Product

@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>All Products</h1>
+    <h1> <%= category %>  Products</h1>
     <ul>
         <% for (let producto of productos){ %>
             <li> <%= producto.name %>  <a href="/products/<%= producto._id %> "> Detail </a></li>
@@ -16,6 +16,9 @@
 
     </ul>
     <a href="/products/new">Create Product</a>
+    <% if (category != 'ALL'){  %>
+        <a href="/products">View All</a>
+    <% } %> 
 
 </body>
 </html>
