@@ -4,7 +4,7 @@ const app = express();
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const Product = require('./models/product');
-const { redirect } = require('express/lib/response');
+const Farm = require('./models/farms');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -18,9 +18,57 @@ const categories = ['fruit', 'vegetable', 'dairy'];
 // Para conectarnos con Mongo.
 main().catch(err => console.log(err))
 async function main(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/farmStand');
+    await mongoose.connect('mongodb://127.0.0.1:27017/farmStandTake2');
     console.log('Succesful Connection')
 }
+
+// Farm Routes
+app.get('/farms/new', (req,res) =>{
+    res.render('farms/new');
+});
+
+app.get('/farms/:id', async(req,res)=>{
+    const {id} = req.params;
+    const granja = await Farm.findById(id).populate('products');
+    res.render('farms/show', {granja});
+})
+
+
+app.get('/farms', async(req,res)=>{
+    const granjas = await Farm.find({});
+    res.render('farms/index', {granjas}); 
+})
+
+
+
+app.post('/farms',async(req,res)=>{
+    const granja = new Farm(req.body);
+    await granja.save();
+    res.redirect('/farms')
+});
+
+app.get('/farms/:id/products/new', async(req,res)=>{
+    const {id} = req.params;
+    const farm = await Farm.findById(id);
+    res.render('products/new', {categories, farm});
+});
+app.post('/farms/:id/products', async(req,res)=>{
+    const {id} = req.params;
+    let farm = await Farm.findById(id);
+    const {name,price,category} = req.body;
+    const product =  new Product({name,price,category});
+    farm.products.push(product); // Agrego un producto a ese array de productos que tiene cada granja
+    product.farm = farm; // y Cada producto esta asociado a una granja
+    await farm.save();
+    await product.save();
+    res.redirect(`/farms/${id}`); // guardamos
+});
+
+
+
+
+
+
 
 // List all The products
 app.get('/products', async(req,res)=>{

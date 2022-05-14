@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> detail farm </title>
+</head>
+<body>
+    <h1> <%= granja.name %> </h1>
+    <ul>
+        <li> Location: $<%= granja.city %> </li>
+        <li> Email: <%= granja.email %></li>
+    </ul>
+    <h2>Products</h2>
+    <ul>
+        <% for(let product of granja.products){ %>
+            <li> <a href="/products/<%= product._id %>"> <%= product.name %> </a>   </li>
+        <% } %>  
+    </ul>
+    <a href="/farms">All FARMS</a>
+    <a href="/farms/<%= granja._id %>/products/new">Add Product</a>
+    
+</body>
+</html>

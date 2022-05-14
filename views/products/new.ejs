@@ -7,8 +7,9 @@
     <title>New Product</title>
 </head>
 <body>
-    <h1>Add a product</h1>
-    <form action="/products" method="post">
+    <h1><%= farm.name %> </h1>
+    <h3>Add a product</h3>
+    <form action="/farms/<%= farm._id %>/products" method="post">
         <label for="name">Product Name</label>
         <input type="text" name="name" id="name" placeholder="Product Name">
         <label for="price">Price</label>
