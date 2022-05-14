@@ -102,7 +102,7 @@ app.get('/products/:id/edit', async(req,res)=>{
 });
 app.put('/products/:id', async (req,res) =>{
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true});
+    const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
     res.redirect(`/products/${product._id}`);
 })
 
@@ -112,7 +112,7 @@ app.put('/products/:id', async (req,res) =>{
 // Details products
 app.get('/products/:id', async(req,res)=>{
     const { id } = req.params;
-    const product = await Product.findById({_id: id}); // Hallamos el producto por id
+    const product = await Product.findById({_id: id}).populate('farm','name');; // Hallamos el producto por id
     res.render('products/show', { product });
 });
 
