@@ -64,6 +64,12 @@ app.post('/farms/:id/products', async(req,res)=>{
     res.redirect(`/farms/${id}`); // guardamos
 });
 
+app.delete('/farms/:id', async(req,res)=>{
+    const granja = await Farm.findByIdAndDelete(req.params.id);
+    
+    res.redirect('/farms');
+})
+
 
 
 
