@@ -1,11 +1,18 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 const methodOverride = require('method-override');
+const session = require('express-session');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const Product = require('./models/product');
 const Farm = require('./models/farms');
 
+const app = express();
+
+const sessionsOptions = {secret: 'secretWord', resave: false, saveUninitialized: false}
+
+app.use(session(sessionsOptions));
+app.use(flash())
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.set('views',path.join(__dirname,'views'));
@@ -21,6 +28,12 @@ async function main(){
     await mongoose.connect('mongodb://127.0.0.1:27017/farmStandTake2');
     console.log('Succesful Connection')
 }
+// Middleware para tener acceso a los mensajes flash en todas las rutas
+app.use((req,res,next)=>{
+    res.locals.messages = req.flash('success');
+    next()
+})
+
 
 // Farm Routes
 app.get('/farms/new', (req,res) =>{
@@ -37,13 +50,14 @@ app.get('/farms/:id', async(req,res)=>{
 app.get('/farms', async(req,res)=>{
     const granjas = await Farm.find({});
     res.render('farms/index', {granjas}); 
-})
-
+});
 
 
 app.post('/farms',async(req,res)=>{
     const granja = new Farm(req.body);
     await granja.save();
+    // PAra enviar una alerta o mensaje cuando hago el redirect entonces hago esto
+    req.flash('success', 'Succesfully made a new farm');
     res.redirect('/farms')
 });
 
