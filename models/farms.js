@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Product = require('./product');
 const {Schema} = mongoose;
+
 const farmSchema = new Schema({
     name: {
         type: String,
